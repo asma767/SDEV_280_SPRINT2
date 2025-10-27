@@ -450,7 +450,7 @@ div#top p {
 }
 
 #winnerSnapshot li {
-    background: linear-gradient(to bottom, #d2d8e9 0%, #eef1f7 100%);
+    background: rgb(230, 232, 234);
     border: 1px solid rgba(0, 0, 0, .08);
     border-radius: 0px;
     padding: 14px 20px;
