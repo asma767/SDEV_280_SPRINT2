@@ -1,0 +1,863 @@
+/* ==========================
+   RESET / GLOBAL STYLES
+========================== */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    background-color: #dedfe3;
+    background-repeat: no-repeat, no-repeat;
+    background-position: calc(50% - 600px) bottom, calc(50% + 600px) bottom;
+    background-size: 640px auto, 680px auto;
+    background-attachment: fixed, fixed;
+
+}
+
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+/* ==========================
+   HEADER / NAVIGATION
+========================== */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    background: rgba(23, 58, 90, 0.35);
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+}
+
+#logo {
+    width: 70px;
+    height: auto;
+    display: block;
+}
+
+header nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 16px;
+    align-items: center;
+    padding: 6px 12px;
+}
+
+header nav ul {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 6px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+header nav a.btn {
+    display: block;
+    text-align: center;
+    padding: 10px 12px;
+    text-decoration: none;
+    font-weight: 700;
+    background: linear-gradient(to bottom, #05426e 0%, #03253e 100%);
+    color: #fff;
+}
+
+.mainnav {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 12px 0 16px;
+    padding: 0;
+    flex: 1;
+    min-width: 0;
+}
+
+.mainnav .btn {
+    display: inline-block;
+    padding: 8px 18px;
+    font-weight: 700;
+    font-size: .95em;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+.mainnav .btn:hover {
+    background: #03253e;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.icon-btn {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 9999px;
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.icon-btn:focus-visible {
+    outline: 2px solid #0b507e;
+    outline-offset: 2px;
+}
+
+.icon-btn svg {
+    opacity: .85;
+}
+
+.icon-btn:hover svg {
+    opacity: 1;
+}
+
+/* Dropdown / Menu */
+.dropbtn {
+    background-color: #002744;
+    color: #fff;
+    padding: 6px 10px;
+    font-size: .95em;
+    border: none;
+}
+
+.menu-wrapper {
+    position: relative;
+}
+
+.menu-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    min-width: 180px;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .14);
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity .16s ease, transform .16s ease;
+}
+
+.menu-dropdown a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #0B5781;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.menu-dropdown a:hover {
+    background: rgba(167, 212, 225, 0.35);
+}
+
+.menu-wrapper.active .menu-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Search Box */
+.search-box {
+    position: relative;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.search-box input {
+    width: 0;
+    opacity: 0;
+    padding: 6px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    outline: none;
+    font-size: .9em;
+    background: var(--white);
+    transition: width .3s ease, opacity .3s ease;
+}
+
+.search-box.active input {
+    width: 180px;
+    opacity: 1;
+}
+
+/* ==========================
+   EVENT SEARCH BAR
+========================== */
+
+#mainSearchInput {
+    display: block;
+    margin: auto;
+    margin-top: 25px;
+    width: 298px;
+}
+
+#mainSuggestionsContainer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Center it like the search input */
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: left;
+    width: 298px;
+    z-index: 1001;
+    /* Higher than header which is 1000 */
+    margin-top: 2px;
+    /* Small gap below search input */
+}
+
+.suggestion-item {
+    padding: 5px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #002744;
+    color: white;
+    padding: 5px;
+    font-size: 1em;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+/* ==========================
+   DROPDOWN BUTTONS
+========================== */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+/* ==========================
+   TERRON / EVENT SECTION
+========================== */
+div#top {
+    margin: 40px auto;
+    width: 700px;
+    display: grid;
+    grid-template-areas:
+        "logo head"
+        "desc desc";
+    justify-content: space-around;
+    column-gap: 30px;
+    grid-template-columns: 170px 1fr;
+    row-gap: 12px;
+}
+
+#event_logo {
+    width: 170px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 3px var(--cosmic-latte);
+}
+
+#event_header {
+    grid-area: head;
+    text-align: left;
+    justify-self: start;
+    align-self: center;
+}
+
+#event_title {
+    display: inline;
+    margin: 0;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    line-height: 1.2;
+    color: #0c1b2a;
+    font-weight: 800;
+}
+
+#event_subtitle {
+    display: inline;
+}
+
+#desc {
+    grid-area: desc;
+    justify-self: center;
+    color: #0c1b2a;
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.6;
+    margin-top: 8px;
+    max-width: 75ch;
+    opacity: .95;
+}
+
+div#top p {
+    max-width: 650px;
+    color: #0c1b2a;
+}
+
+
+/* summary*/
+#eventSnapshot {
+    display: grid;
+    /*grid-template-columns: repeat(2, minmax(240px,1fr)); /* two columns */
+    gap: 12px;
+    grid-column: 1 / -1;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+#eventSnapshot li {
+    background: #fff;
+    /* or var(--card) */
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 1px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .12);
+}
+
+#eventSnapshot li strong {
+    display: block;
+    font-size: .82rem;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: #0a234f;
+    margin-bottom: 4px;
+}
+
+/* summary winners*/
+#winnersummary {
+    margin-top: 28px;
+}
+
+#winnerSnapshot {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 10px;
+    font-size: 1rem;
+    color: #05325f;
+}
+
+#winnerSnapshot li {
+    background: linear-gradient(to bottom, #d2d8e9 0%, #eef1f7 100%);
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 0px;
+    padding: 14px 20px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .12);
+    font-size: 1rem;
+    color: #05325f;
+}
+
+#winnerSnapshot .wins-text {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    display: flex;
+    flex-direction: column;
+    /* label on top, value below */
+    align-items: center;
+    gap: 4px;
+}
+
+#winnerSnapshot .value {
+    font-weight: 600;
+    color: #05325f;
+    font-size: 1rem;
+
+}
+
+
+
+/* ==========================
+   GRAPH SECTION
+========================== */
+/* Graphs container */
+
+.graphs {
+    margin-bottom: 32px;
+}
+
+.graphs .graphcontainer {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+}
+
+/* Each graph card (same size!) */
+.graphs .graphcontainer figure {
+    flex: 1;
+    max-width: 450px;
+    /* same width */
+    background: #fff;
+    padding: 12px;
+    border-radius: 0px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .18);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Graph image alignment + fixed height */
+.graphs .graphcontainer img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+    display: block;
+}
+
+/* Caption styling */
+.graphs .graphcontainer figcaption {
+    margin-top: 10px;
+    font-size: .9rem;
+    color: #355371;
+    text-align: center;
+}
+
+
+/* end of graph section*/
+
+#panel {
+    margin: 0 10px;
+    text-align: center;
+}
+
+#page {
+    width: 960px;
+    margin: 0 auto;
+    box-shadow: 0 9px 0 white, 0 -9px 0 white, 5px 0 15px -4px #333, -5px 0 15px -4px #333;
+    background-color: #fff;
+    padding: 18px;
+}
+
+/* ==========================
+   TABLES
+========================== */
+/*this controls the size of the title for the tables */
+h5 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+table {
+    margin: auto;
+    border: none;
+}
+
+/*color of the font in the tables */
+table a {
+    color: rgb(33, 36, 57);
+}
+
+table#upcoming_table,
+table#past {
+    table-layout: fixed;
+    width: 720px;
+    margin-bottom: 20px;
+}
+
+tbody {
+    border-top: 1px solid #ccc;
+}
+
+table thead th,
+table th {
+    background: linear-gradient(to bottom, #05426e 0%, #03253e 100%);
+    color: #fff;
+    font-weight: bold;
+    border-bottom: none;
+    margin: 0 0 5px;
+    padding: 10px;
+    line-height: 1;
+    text-transform: none;
+}
+
+#past {
+    table-layout: fixed;
+    width: 720px;
+    margin: 0 auto 50px;
+    /* same centering + spacing */
+    /* border-collapse: collapse; */
+}
+
+/* button for past table*/
+#past_table .btn-viewall {
+    display: inline-block;
+    padding: .6rem 1rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    text-decoration: none;
+    background: #05426e;
+    border: 1px solid #03253e;
+    color: #fff;
+    /* readable regardless of table link color */
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+#past_table .btn-viewall:hover {
+    background: #0b507e;
+    box-shadow: 0 4px 14px rgba(5, 66, 110, .25);
+    transform: translateY(-1px);
+}
+
+#past_table .cta-row td {
+    text-align: center;
+    padding: 12px 0;
+    background: #f0f6fb;
+    /* overrides your zebra striping */
+    border-top: 1px solid #dbe7f0;
+}
+
+/* Ensure normal body links stay readable if you overrode table links elsewhere */
+#past_table tbody a:not(.btn-viewall) {
+    color: #2b3942;
+    text-decoration: none;
+}
+
+#past_table tbody a:not(.btn-viewall):hover {
+    text-decoration: underline;
+}
+
+/* end of past table and future events*/
+
+
+/* outside arrow for collapsible tables */
+table thead {
+    position: relative;
+    /* ensure thead is a positioning context */
+}
+
+table thead .outside-arrow {
+    position: absolute;
+    left: -18px;
+    /* sits just outside the left edge of the header */
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    /* chevron pointing down */
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid #0B5781;
+    border-bottom: 2px solid #0B5781;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: transform .18s ease;
+    z-index: 5;
+
+}
+
+/* rotated when table has .open (tbody visible) */
+table.open thead .outside-arrow {
+    transform: translateY(-50%) rotate(-135deg);
+}
+
+table#past th#year {
+    column-width: auto;
+    height: 15px;
+}
+
+
+tr:nth-child(2n),
+tr:nth-child(2n+1) {
+    background-color: #f6f8f9;
+    border-bottom: 3px solid #fbfcfd;
+    padding: 0.1em 1em;
+}
+
+table tbody tr:hover {
+    background-color: #e9f6fb;
+    transition: background-color 150ms ease-in-out;
+}
+
+td,
+th {
+    padding: 4px 8px;
+    vertical-align: middle;
+}
+
+#dashboard {
+    margin-bottom: 30px;
+}
+
+/* Winner tables */
+.dbwinnertable {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cardWinner {
+    background: #fff;
+    padding: 5px 25px 5px;
+    box-shadow: 0 4px 18px rgba(0, 10, 18, 0.18);
+}
+
+.cardWinner h3 {
+    text-align: center;
+}
+
+.dbwinnertable table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dbwinnertable thead th,
+.dbwinnertable tbody td,
+.dbwinnertable tbody th {
+    padding: 7px 5px;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 2px solid #fbfcfd;
+}
+
+.dbwinnertable table thead th:first-child,
+.dbwinnertable table tbody th:first-child {
+    width: 20%;
+}
+
+.dbwinnertable table thead th:nth-child(2),
+.dbwinnertable table tbody td:nth-child(2) {
+    width: 52%;
+}
+
+.dbwinnertable table thead th:nth-child(3),
+.dbwinnertable table tbody td:nth-child(3) {
+    width: 20%;
+}
+
+.dbwinnertable table thead th:nth-child(4),
+.dbwinnertable table tbody td:nth-child(4) {
+    width: 20%;
+}
+
+/* Leaderboard table */
+.dashboard-summary thead th,
+.dashboard-summary tbody td,
+.dashboard-summary tbody th {
+    border: 2px solid #fbfcfd;
+}
+
+#winner_counts {
+    table-layout: fixed;
+    width: 720px;
+    border-collapse: collapse;
+
+}
+
+/* #winner_counts thead th:first-child,
+#winner_counts tbody td:first-child {
+    width: 75%;
+} */
+
+#winner_counts thead th:last-child,
+#winner_counts tbody td:last-child {
+    width: 30%;
+}
+
+#winner_counts th,
+#winner_counts td {
+    padding: 10px 8px;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#tableBody {
+    display: none;
+}
+
+#toggleTable {
+    cursor: pointer;
+}
+
+#toggleTable:hover {
+    background-color: #0b507e;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+footer {
+    color: white;
+    background-color: #03253e;
+    padding: 16px;
+    text-align: start;
+    font-size: 0.9em;
+    margin-top: 20px;
+}
+
+footer .pane-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footermedia {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+}
+
+.footermedia .btn {
+    display: inline-block;
+    padding: 8px 18px;
+    font-weight: 700;
+    font-size: .95em;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all .25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(183, 179, 179, 0.08);
+    color: #fff;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.footermedia .btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.pdga-icon {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    padding: 1%;
+}
+
+/* ==========================
+   DASHBOARD / SUMMARY
+========================== */
+#dashboard {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.dashboard-summary {
+    /* width: 700px;*/
+    max-width: 95%;
+    margin: 0 auto 12px;
+}
